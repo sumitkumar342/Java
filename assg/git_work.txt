@@ -1,0 +1,27 @@
+1. Committed the wrong message?
+Ans:-> git commit --amend -m "Corrected commit message"
+
+2. Skipped a file in the last commit?
+Ans:->  git add missed_file.txt
+	git commit --amend --no-edit
+
+3. Accidentally committed on master (or main)?
+Ans:-> Create a new branch and move the commit there:
+
+	git branch feature-branch
+	git reset --hard HEAD~1  	# remove commit from master
+	git checkout feature-branch
+
+4. Accidentally committed to the wrong branch?
+Ans:-> Checkout the correct branch and cherry-pick:
+	git checkout correct-branch
+	git cherry-pick <commit-id>
+	git checkout wrong-branch
+	git reset --hard HEAD~1   # remove it from wrong branch
+
+5. Want to undo the last 5 commits?
+Ans:-> git reset --hard HEAD~5
+
+6. Undo changes to a file (before staging)?
+Ans:-> 	git reset HEAD filename.txt
+	git checkout -- filename.txt

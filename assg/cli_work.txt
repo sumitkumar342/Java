@@ -1,0 +1,62 @@
+﻿  cd mount_blue/
+   ->  mkdir hello   	# Create folder
+   ->  ls		# show list of files & folder
+   ->  mkdir one 	# make folder one
+   ->  mkdir five	# make folder five
+   ->  ls		# show list of files & folder
+   ->  mv five hello 	# move file 
+   ->  ls		# show list of files & folder
+   ->  mv one hello 	# move file
+   ->  ls		# show list of files & folder
+   ->  cd hello/ 	# head move in hello folder
+   ->  ls		# show list of files & folder
+   ->  cd one/		# head move in one folder
+   ->  mkdir a.txt	# create file
+   ->  touch b.txt	# create file 
+   ->  ls		# show list of files & folder
+   ->  mkdir two 	# create folder
+   ->  cd two/		# head move in two folder
+   ->  touch d.txt	# create file
+   ->  mkdir three 	# create folder
+   ->  ls		# show list of files & folder
+   ->  cd three/	# head move in three folder
+   ->  mkdir e.txt	# make file
+   ->  mkdir four	# make folder
+   ->  ls		# show list of files & folder
+   ->  cd four/		# head move in four folder
+   ->  mkdir access.log # make file 
+   ->  ls		# show list of files & folder
+   ->  cd ../../../..	# head back
+   ->  cd five/		# head move in five folder
+   ->  mkdir six	# make folder six
+   ->  cd six		# head move in folder six
+   ->  mkdir c.txt	# make a file 
+   ->  mkdir seven	# make folder
+   ->  cd seven/	# head move in folder seven 
+   ->  mkdir error.log	# make file 
+
+   -> rm *.txt		# delete all .txt file
+   -> nano a.txt	# open file and write multiple lines.
+   -> cat a.txt		# show message inside file
+   -> rm -r five	# remove folder 
+   -> mv two uno	# move folder 
+   -> mv a.txt uno	# move file
+
+
+
+story Harry Potter
+------------------------------------
+-> wget -O book.txt https://raw.githubusercontent.com/bobdeng/owlreader/master/ERead/assets/books/Harry%20Potter%20and%20the%20Goblet%20of%20Fire.txt
+-> head -n 3 book.txt
+-> tail -n 10 goblet.txt
+-> grep -o -i "Harry" book.txt | wc -l
+grep -o -i "Ron" book.txt | wc -l
+grep -o -i "Hermione" book.txt | wc -l
+grep -o -i "Dumbledore" book.txt | wc -l
+-> sed -n '100,200p' book.txt
+-> tr -cs '[:alnum:]' '[\n*]' < book.txt | sort -u | wc -l 
+
+tr → converts non-alphanumeric to newlines (splits words).
+sort -u → unique sort.
+wc -l → count lines = unique words.
+

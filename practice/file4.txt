@@ -1,0 +1,7 @@
+Hi, This is file 4.
+
+jjj
+<<<<<<< HEAD
+ghhhujhk
+=======
+>>>>>>> 4ad93ba (update file 4)

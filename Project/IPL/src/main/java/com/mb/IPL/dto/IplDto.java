@@ -22,7 +22,7 @@ public class IplDto {
         map.put("Matches", numberOfLines-1);
         response.add(map);
 
-        for (int i = 1; i <= 5 && i < numberOfLines; i++) {
+        for (int i = 1; i <= 6 && i < numberOfLines; i++) {
             String match = matchData.get((int) (numberOfLines - i));
             response.add(setMatchData(match));
         }

@@ -16,7 +16,8 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-public class DtoTest {
+
+public class MatchDtoTest {
 
     @Mock
     private IplDao iplDao;
@@ -79,7 +80,8 @@ public class DtoTest {
     void testGetMatchYearWise(){
         Map<Integer, Integer> result = iplDto.getMatchYearWise();
         assertEquals(5, result.get(2017));
-        assertEquals(null, result.get(2025));
+//        assertEquals(null, result.get(2025));
+        assertNull(result.get(2025));
         assertEquals(1, result.get(2015));
     }
 

@@ -16,8 +16,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/ipl")
-public class ApiController {
-    private static final Logger logger = LoggerFactory.getLogger(ApiController.class);
+public class MatchApiController {
+    private static final Logger logger = LoggerFactory.getLogger(MatchApiController.class);
 
     @Autowired
     private Service service;

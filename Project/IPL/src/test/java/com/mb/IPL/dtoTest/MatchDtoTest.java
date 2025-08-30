@@ -49,8 +49,8 @@ public class DtoTest {
         List<Map<String, Object>> result = iplDto.home();
 
         assertNotNull(result);
-        assertEquals(6, result.size()); // 1 for "Matches" + 5 matches
-        assertEquals(5L, result.get(0).get("Matches")); // total matches count
+        assertEquals(7, result.size()); // 1 for "Matches" + 6 matches
+        assertEquals(6L, result.get(0).get("Matches")); // total matches count
     }
 
     @Test

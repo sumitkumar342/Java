@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -22,16 +24,30 @@ public class IplDao {
         String filePath = configartion.getMatches();
         try {
             File file = new File(filePath);
-            boolean fileExists = file.exists();
-            if(fileExists){
-                List<String> existingLine = new ArrayList<>();
-                existingLine = Files.readAllLines(file.toPath());
-                return existingLine;
+            if (file.exists()) {
+                return Files.readAllLines(file.toPath());
+            } else {
+                logger.info("Match file not found {}", filePath);
             }
-            logger.info("File not found {}", filePath);
-        }catch (IOException e){
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.error("Error reading matches file: {}", filePath, e);
         }
-        return null;
+        return Collections.emptyList();
     }
+
+    public List<String> getDeliveriesData() {
+        String filePath = configartion.getDeliveries();
+        try {
+            File file = new File(filePath);
+            if (file.exists()) {
+                return Files.readAllLines(file.toPath());
+            } else {
+                logger.info("Deliveries file not found {}", filePath);
+            }
+        } catch (IOException e) {
+            logger.error("Error reading deliveries file: {}", filePath, e);
+        }
+        return Collections.emptyList();
+    }
+
 }

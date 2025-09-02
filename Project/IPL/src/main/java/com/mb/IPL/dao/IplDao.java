@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,7 +33,7 @@ public class IplDao {
         return Collections.emptyList();
     }
 
-    public List<String> getDeliveriesData() {
+    public List<String> DeliveriesData() {
         String filePath = configartion.getDeliveries();
         try {
             File file = new File(filePath);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @org.springframework.stereotype.Service
 public class Service {
@@ -59,6 +60,15 @@ public class Service {
         str.setMessage("Team wise list founded");
         str.setData(result);
         str.setStatusCode(HttpStatus.OK.value());
+        return new ResponseEntity<>(str, HttpStatus.OK);
+    }
+
+    public ResponseEntity<ResponseStructure<Map<Integer, Set<String>>>> getTeam() {
+        ResponseStructure<Map<Integer, Set<String>>> str = new ResponseStructure<>();
+        Map<Integer, Set<String>> result = iplDto.getTeam();
+        str.setStatusCode(HttpStatus.OK.value());
+        str.setData(result);
+        str.setMessage("Data founded year wise.");
         return new ResponseEntity<>(str, HttpStatus.OK);
     }
 }

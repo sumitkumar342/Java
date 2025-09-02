@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 @RestController
 @RequestMapping("/match-summary")
@@ -21,9 +23,20 @@ public class SummaryApiController {
     @Autowired
     private DeliveriesService deliveriesService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseStructure<Map<String, String>>>  getSummary(@PathVariable("id") int id){
+    @GetMapping("teams/{id}")
+    public ResponseEntity<ResponseStructure<Map<String, Object>>> getSummary(@PathVariable("id") int id){
         logger.info("input match id: {}", id);
         return deliveriesService.getSummary(id);
     }
+
+    @GetMapping("/player/{name}")
+    public ResponseEntity<ResponseStructure<Map<String, Object>>> getPlayer(@PathVariable("name") String name){
+        return deliveriesService.getPlayer(name);
+    }
+
+    @GetMapping("/extra-run/{year}")
+    public ResponseEntity<ResponseStructure<Map<String, Integer>>> getExtrarun(@PathVariable("year") int year){
+        return deliveriesService.getExtraRun(year);
+    }
+
 }

@@ -121,12 +121,27 @@ public class IplDto {
                 continue;
             }
             Map<Integer, Integer> yearMap = teamData.getOrDefault(winningTeam, new TreeMap<>());
-
             yearMap.put(season, yearMap.getOrDefault(season, 0) + 1);
-
             teamData.put(winningTeam, yearMap);
 
         }
         return teamData;
+    }
+
+    public Map<Integer, Set<String>> getTeam() {
+        List<String> matchData = iplDao.matchesData();
+        Map<Integer, Set<String>> map = new HashMap<>();
+        for(int i=1; i<matchData.size(); i++){
+            String[] str1 = matchData.get(i).split(",");
+            int session = Integer.parseInt(str1[1]);
+            String team1 = str1[4];
+            String team2 = str1[5];
+            Set<String> teams = map.getOrDefault(session, new HashSet<>());
+            teams.add(team1);
+            teams.add(team2);
+            map.put(session, teams);
+
+        }
+        return map;
     }
 }

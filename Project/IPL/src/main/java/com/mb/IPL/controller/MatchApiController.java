@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/ipl")
@@ -36,6 +37,11 @@ public class MatchApiController {
     @GetMapping("/place/{place}")
     public ResponseEntity<ResponseStructure<List<Map<String, String>>>> getPlaced(@PathVariable("place") String place){
         return service.getPlaced(place);
+    }
+
+    @GetMapping("/teams")
+    public ResponseEntity<ResponseStructure<Map<Integer, Set<String>>>> getTeam(){
+        return service.getTeam();
     }
 
     @GetMapping("/totalmatch")

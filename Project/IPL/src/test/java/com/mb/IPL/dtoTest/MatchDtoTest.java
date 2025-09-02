@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -80,7 +81,7 @@ public class MatchDtoTest {
     void testGetMatchYearWise(){
         Map<Integer, Integer> result = iplDto.getMatchYearWise();
         assertEquals(5, result.get(2017));
-//        assertEquals(null, result.get(2025));
+        assertEquals(null, result.get(2025));
         assertNull(result.get(2025));
         assertEquals(1, result.get(2015));
     }
@@ -107,5 +108,12 @@ public class MatchDtoTest {
 
         assertTrue(result.get("SRH").containsKey(2017));
         assertEquals(1, result.get("SRH").get(2017));
+    }
+
+    @Test
+    void testGetTeam(){
+        Map<Integer, Set<String>> result = iplDto.getTeam();
+        assertTrue(result.get(2017).contains("RPS"));
+        assertFalse(result.get(2017).contains("BR"));
     }
 }

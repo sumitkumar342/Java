@@ -43,4 +43,13 @@ public class DeliveriesService {
         str.setMessage("Data founded");
         return new ResponseEntity<>(str, HttpStatus.OK);
     }
+
+    public ResponseEntity<ResponseStructure<String>> getBestEconomicalBowler(int year) {
+        ResponseStructure<String> str = new ResponseStructure<>();
+        String result = deliveriesDto.getBestEconomicalBowler(year);
+        str.setMessage("Data founded");
+        str.setData(result);
+        str.setStatusCode(HttpStatus.OK.value());
+        return new ResponseEntity<>(str, HttpStatus.OK);
+    }
 }

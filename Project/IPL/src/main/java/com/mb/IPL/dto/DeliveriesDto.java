@@ -87,7 +87,7 @@ public class DeliveriesDto {
     public Map<String, Object> getPlayer(String name) {
         List<String> deliveriesData = iplDao.DeliveriesData();
 
-        int totalRuns = 0, ballsFaced = 0;
+        int totalRuns = 0, ballsFaced = 0,  totalMatch=0;
         Map<Integer, Integer> runsPerMatch = new HashMap<>();
 
         int runsConceded = 0, ballsBowled = 0;
@@ -141,6 +141,7 @@ public class DeliveriesDto {
 
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("player", name);
+        result.put("Match", runsPerMatch.size());
         result.put("totalRuns", totalRuns);
         result.put("highestRunsInMatch", highestRuns);
         result.put("strikeRate", strikeRate);
@@ -177,4 +178,49 @@ public class DeliveriesDto {
         }
         return extraRuns;
     }
+
+    public String getBestEconomicalBowler(int year) {
+        List<String> deliveriesData = iplDao.DeliveriesData();
+        List<String> matchesData = iplDao.matchesData();
+        Set<String> matchIds = new HashSet<>();
+        for (int i=1; i<matchesData.size(); i++) {
+            String[] cols = matchesData.get(i).split(",");
+            if (Integer.parseInt(cols[1]) == year) {
+                matchIds.add(cols[0]);
+            }
+        }
+        Map<String, Integer> runsConceded = new HashMap<>();
+        Map<String, Integer> ballsBowled = new HashMap<>();
+        for (int i=1; i<deliveriesData.size(); i++) {
+            String[] cols = deliveriesData.get(i).split(",");
+            String matchId = cols[0];
+            if (!matchIds.contains(matchId))
+                continue;
+
+            String bowler = cols[8];
+            int totalRuns = Integer.parseInt(cols[17]);
+            int wide = Integer.parseInt(cols[10]);
+            int noBall = Integer.parseInt(cols[13]);
+            runsConceded.merge(bowler, totalRuns, Integer::sum);
+            if (wide == 0 && noBall == 0) {
+                ballsBowled.merge(bowler, 1, Integer::sum);
+            }
+        }
+        String bestBowler = null;
+        double bestEconomy = Double.MAX_VALUE;
+        for (String bowler : runsConceded.keySet()) {
+            int runs = runsConceded.getOrDefault(bowler, 0);
+            int balls = ballsBowled.getOrDefault(bowler, 0);
+            if (balls == 0)
+                continue;
+            double overs = balls / 6.0;
+            double economy = runs / overs;
+            if (economy < bestEconomy) {
+                bestEconomy = economy;
+                bestBowler = bowler;
+            }
+        }
+        return bestBowler + " (" + String.format("%.2f", bestEconomy) + ")";
+    }
+
 }

@@ -1,6 +1,7 @@
 # IPL Data Analysis Output
 
 ## 1. Number of matches played per year of all the years in IPL.
+
     http://localhost:8080/ipl/totalmatch (get)
     "statusCode": 200,
     "message": "Data founded year wise",
@@ -18,6 +19,7 @@
     }
 
 ## 2. Number of matches won of all teams over all the years of IPL.
+
     http://localhost:8080/ipl/matchwonteamwise (get)
 
     "statusCode": 200,
@@ -139,6 +141,7 @@
 
 
 ## 3. For the year 2016 get the extra runs conceded per team.
+
 http://localhost:8080/match-summary/extra-run/2016 (get)
 
     "statusCode": 200,
@@ -155,12 +158,14 @@ http://localhost:8080/match-summary/extra-run/2016 (get)
     }
 
 ## 4. For the year 2015 get the top economical bowlers.
+
     http://localhost:8080/match-summary/besteconomical/2014 (Get)
     "statusCode": 200,
     "message": "Data founded",
     "data": "Ankit Sharma (5.50)"
 
 ## 5. Get match details by match id.
+
     http://localhost:8080/ipl/636 (get)
 
     {
@@ -188,6 +193,7 @@ http://localhost:8080/match-summary/extra-run/2016 (get)
     }
 
 ## 6. Home page give last 6 match details.
+
     http://localhost:8080/ipl (get)
     {
         "statusCode": 302,
@@ -260,6 +266,7 @@ http://localhost:8080/match-summary/extra-run/2016 (get)
     }
 
 ## 7. Get match details by stadium name.
+
     http://localhost:8080/ipl/place/rajkot (get)
 
     {
@@ -460,6 +467,7 @@ http://localhost:8080/match-summary/extra-run/2016 (get)
     }
 
 ## 8. Match-winning teams by year.
+
     http://localhost:8080/ipl/matchwonteamwise (get)
     {
         "statusCode": 200,
@@ -581,6 +589,7 @@ http://localhost:8080/match-summary/extra-run/2016 (get)
     }
 
 ## 9. Year-wise team names.
+
     http://localhost:8080/ipl/teams (get)
     {
         "statusCode": 200,
@@ -694,7 +703,8 @@ http://localhost:8080/match-summary/extra-run/2016 (get)
     }
 
 
-## 10. Player profiles
+## 10. Player profiles.
+
     http://localhost:8080/match-summary/player/S Dhawan (get)
     {
         "statusCode": 200,
@@ -712,6 +722,7 @@ http://localhost:8080/match-summary/extra-run/2016 (get)
     }
 
 ## 11. Extra runs conceded by teams year-wise.
+
     http://localhost:8080/match-summary/extra-run/2016 (get)
     {
         "statusCode": 200,
@@ -728,7 +739,8 @@ http://localhost:8080/match-summary/extra-run/2016 (get)
         }
     }
 
-12. Best Economical Bowler – 2014
+## 12. Best Economical Bowler – 2014
+
     http://localhost:8080/match-summary/besteconomical/2014 (get)
     {
         "statusCode": 200,

@@ -40,7 +40,7 @@ public class SummaryApiController {
     }
 
     @GetMapping("/besteconomical/{year}")
-    public ResponseEntity<ResponseStructure<String>> getBestEconomicalBowler(@PathVariable("year") int year){
+    public ResponseEntity<ResponseStructure<List<String>>> getBestEconomicalBowler(@PathVariable("year") int year){
         return deliveriesService.getBestEconomicalBowler(year);
     }
 

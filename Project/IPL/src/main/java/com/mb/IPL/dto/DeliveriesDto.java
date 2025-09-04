@@ -179,7 +179,7 @@ public class DeliveriesDto {
         return extraRuns;
     }
 
-    public String getBestEconomicalBowler(int year) {
+    public List<String> getBestEconomicalBowler(int year) {
         List<String> deliveriesData = iplDao.DeliveriesData();
         List<String> matchesData = iplDao.matchesData();
         Set<String> matchIds = new HashSet<>();
@@ -208,6 +208,8 @@ public class DeliveriesDto {
         }
         String bestBowler = null;
         double bestEconomy = Double.MAX_VALUE;
+        TreeSet<Double> bestEconomys = new TreeSet<>();
+        List<String> result = new ArrayList<>();
         for (String bowler : runsConceded.keySet()) {
             int runs = runsConceded.getOrDefault(bowler, 0);
             int balls = ballsBowled.getOrDefault(bowler, 0);
@@ -215,12 +217,28 @@ public class DeliveriesDto {
                 continue;
             double overs = balls / 6.0;
             double economy = runs / overs;
+            bestEconomys.add(economy);
             if (economy < bestEconomy) {
                 bestEconomy = economy;
                 bestBowler = bowler;
             }
         }
-        return bestBowler + " (" + String.format("%.2f", bestEconomy) + ")";
+        result.add(bestBowler + " (" + String.format("%.2f", bestEconomy) + ")");
+
+//        ArrayList<Double> sortedEco = new ArrayList<>(bestEconomys);
+//        for (String bowler : runsConceded.keySet()) {
+//            int runs = runsConceded.getOrDefault(bowler, 0);
+//            int balls = ballsBowled.getOrDefault(bowler, 0);
+//            if (balls == 0)
+//                continue;
+//            double overs = balls / 6.0;
+//            double economy = runs / overs;
+//            if (economy <= sortedEco.get(9)) {
+//               result.add(bowler + " (" + String.format("%.2f", economy) + ")");
+//            }
+//
+//        }
+        return result;
     }
 
 }

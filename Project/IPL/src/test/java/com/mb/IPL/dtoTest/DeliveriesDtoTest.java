@@ -85,7 +85,7 @@ public class DeliveriesDtoTest {
 
     @Test
     void testBestEconomical(){
-        String result = deliveriesDto.getBestEconomicalBowler(2017);
-        assertEquals("TS Mills (7.00)", result);
+        List<String> result = deliveriesDto.getBestEconomicalBowler(2017);
+        assertEquals("TS Mills (7.00)", result.get(0));
     }
 }

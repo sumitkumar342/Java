@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -44,9 +45,9 @@ public class DeliveriesService {
         return new ResponseEntity<>(str, HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseStructure<String>> getBestEconomicalBowler(int year) {
-        ResponseStructure<String> str = new ResponseStructure<>();
-        String result = deliveriesDto.getBestEconomicalBowler(year);
+    public ResponseEntity<ResponseStructure<List<String>>> getBestEconomicalBowler(int year) {
+        ResponseStructure<List<String>> str = new ResponseStructure<>();
+        List<String> result = deliveriesDto.getBestEconomicalBowler(year);
         str.setMessage("Data founded");
         str.setData(result);
         str.setStatusCode(HttpStatus.OK.value());

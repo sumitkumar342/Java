@@ -53,4 +53,22 @@ public class DeliveriesService {
         str.setStatusCode(HttpStatus.OK.value());
         return new ResponseEntity<>(str, HttpStatus.OK);
     }
+
+    public ResponseEntity<ResponseStructure<String>> heighestrunchess() {
+        ResponseStructure<String> str = new ResponseStructure<>();
+        String result = deliveriesDto.heighestrunchess();
+        str.setStatusCode(HttpStatus.OK.value());
+        str.setData(result);
+        str.setMessage("data fetched successfully");
+        return new ResponseEntity<>(str, HttpStatus.OK);
+    }
+
+//    public ResponseEntity<ResponseStructure<List<Object>>> getDetails(String pname, String place) {
+//        ResponseStructure<List<Object>> str = new ResponseStructure<>();
+//        List<Object> result = deliveriesDto.getDetails(pname, place);
+//        str.setData(result);
+//        str.setMessage("Data founded in data base");
+//        str.setStatusCode(HttpStatus.OK.value());
+//        return new ResponseEntity<>(str, HttpStatus.OK);
+//    }
 }

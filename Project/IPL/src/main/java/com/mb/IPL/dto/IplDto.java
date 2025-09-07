@@ -11,7 +11,7 @@ import java.util.*;
 @Component
 public class IplDto {
     @Autowired
-    private  IplDao iplDao;
+    private  IplDao iplDao = new IplDao();
 
     public List<Map<String, Object>> home() {
         List<Map<String, Object>> response = new ArrayList<>();

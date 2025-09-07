@@ -6,10 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -42,6 +39,15 @@ public class SummaryApiController {
     @GetMapping("/besteconomical/{year}")
     public ResponseEntity<ResponseStructure<List<String>>> getBestEconomicalBowler(@PathVariable("year") int year){
         return deliveriesService.getBestEconomicalBowler(year);
+    }
+//    @GetMapping("/getplayermatch")
+//    public ResponseEntity<ResponseStructure<List<Object>>> getDetails(@RequestParam String pname,
+//                                                                 @RequestParam String place){
+//        return deliveriesService.getDetails(pname, place);
+//    }
+    @GetMapping("/heighestrunchess")
+    public ResponseEntity<ResponseStructure<String>> heighestRunChess(){
+        return deliveriesService.heighestrunchess();
     }
 
 }

@@ -33,7 +33,7 @@ public class IplDao {
         return Collections.emptyList();
     }
 
-    public List<String> DeliveriesData() {
+    public List<String> deliveriesData() {
         String filePath = configartion.getDeliveries();
         try {
             File file = new File(filePath);

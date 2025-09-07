@@ -58,7 +58,7 @@ public class DeliveriesDtoTest {
         );
 
         when(iplDao.matchesData()).thenReturn(matchesData);
-        when(iplDao.DeliveriesData()).thenReturn(deliveriesData);
+        when(iplDao.deliveriesData()).thenReturn(deliveriesData);
     }
 
     @Test

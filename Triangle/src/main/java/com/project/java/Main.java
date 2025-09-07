@@ -8,7 +8,13 @@ public class Main {
         System.out.println("Enter the end point in format(0,0,0,4,3,4)");
         String str = sc.nextLine();
         String[] strArr = str.replaceAll("\\s", "").split(",");
-        boolean tringale1 = Triangle.checkTriangle(strArr);
-        System.out.println(tringale1);
+        boolean tringale = Triangle.checkTriangle(strArr);
+        if(tringale){
+            System.out.println("This is a triangle.");
+        } else {
+            System.out.println("This is a triangle.");
+            System.exit(0);
+        }
+        System.out.println("Perimeter is: " + Triangle.perimeter(strArr));
     }
 }

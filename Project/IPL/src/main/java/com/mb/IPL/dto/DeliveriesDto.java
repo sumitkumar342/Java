@@ -16,7 +16,7 @@ public class DeliveriesDto {
     private IplDao iplDao;
 
     public Map<String, Object> getSummary(int matchId) {
-        List<String> deliveriesData = iplDao.DeliveriesData();
+        List<String> deliveriesData = iplDao.deliveriesData();
         List<String> matchesData = iplDao.matchesData();
 
         String team1 = null, team2 = null, winner = null, manOfTheMatch = null;
@@ -85,7 +85,7 @@ public class DeliveriesDto {
 
 
     public Map<String, Object> getPlayer(String name) {
-        List<String> deliveriesData = iplDao.DeliveriesData();
+        List<String> deliveriesData = iplDao.deliveriesData();
 
         int totalRuns = 0, ballsFaced = 0,  totalMatch=0;
         Map<Integer, Integer> runsPerMatch = new HashMap<>();
@@ -154,7 +154,7 @@ public class DeliveriesDto {
 
 
     public Map<String, Integer> getExtraRun(int year) {
-        List<String> deliveriesData = iplDao.DeliveriesData();
+        List<String> deliveriesData = iplDao.deliveriesData();
         List<String> matchesData = iplDao.matchesData();
         Map<String, Integer> extraRuns = new TreeMap<>();
         Set<Integer> matchId = new TreeSet<>();
@@ -180,7 +180,7 @@ public class DeliveriesDto {
     }
 
     public List<String> getBestEconomicalBowler(int year) {
-        List<String> deliveriesData = iplDao.DeliveriesData();
+        List<String> deliveriesData = iplDao.deliveriesData();
         List<String> matchesData = iplDao.matchesData();
         Set<String> matchIds = new HashSet<>();
         for (int i=1; i<matchesData.size(); i++) {
@@ -241,4 +241,94 @@ public class DeliveriesDto {
         return result;
     }
 
+    public String heighestrunchess() {
+        List<String> deliveriesData = iplDao.deliveriesData();
+        List<String> matchData = iplDao.matchesData();
+        String result = null;
+
+        Set<Integer> matchId = new TreeSet<>();
+        Map<Integer, Map<Integer, String>> teams = new HashMap<>();
+        for(int i=1; i<matchData.size(); i++){
+            String[] cols = matchData.get(i).split(",");
+            int mId = Integer.parseInt(cols[0]);
+            matchId.add(mId);
+            String team1 = cols[4];
+            String team2 = cols[5];
+            Map<Integer, String> team = new HashMap<>();
+            if(cols[7].equals("bat") && team1.equals(cols[6])){
+                team.put(1, team1);
+                team.put(2, team2);
+            }else {
+                team.put(2, team1);
+                team.put(1, team2);
+            }
+            teams.put(mId, team);
+        }
+
+        Map<Integer, Map<Integer, Integer>> runs = new TreeMap<>();
+        for(int i=1; i<deliveriesData.size(); i++){
+            String[] cols = deliveriesData.get(i).split(",");
+            int id = Integer.parseInt(cols[0]);
+            int inning = Integer.parseInt(cols[1]);
+            int run = Integer.parseInt(cols[17]);
+            Map<Integer, Integer> teamWiseRun = runs.getOrDefault(id, new TreeMap<>());
+            teamWiseRun.put(inning, teamWiseRun.getOrDefault(inning, 0)+run);
+            runs.put(id, teamWiseRun);
+        }
+        int maxChess = Integer.MIN_VALUE;
+        int runDiff = Integer.MAX_VALUE;
+        int winningMatchId = -1;
+        for(int mId: matchId){
+            Map<Integer, Integer> teamWiseRun= runs.get(mId);
+            if(teamWiseRun.size() == 2){
+                int team1 = teamWiseRun.get(1);
+                int team2 = teamWiseRun.get(2);
+                if (team1 < team2 && team2 > maxChess) {
+                    maxChess = team2;
+                    winningMatchId = mId;
+                    runDiff = team2 - team1;
+                }
+            }
+        }
+        Map<Integer, String> match = teams.get(winningMatchId);
+        String winningTeam = match.get(2);
+        result = "Highest run chase team is " + winningTeam + " with run " + maxChess;
+        return result;
+    }
+
+//    public List<Object> getDetails(String pname, String place) {
+//        List<String> matchData = iplDao.matchesData();
+//        List<String> deliveryData = iplDao.DeliveriesData();
+//        List<Object> result = new ArrayList<>();
+//
+//        Set<Integer> matchId = new TreeSet<>();
+//        for(int i=1; i<matchData.size(); i++){
+//            String[] cols = matchData.get(i).split(",");
+//            String places = cols[2];
+//            if(places.equalsIgnoreCase(place)){
+//                matchId.add(Integer.parseInt(cols[0]));
+//            }
+//        }
+//
+//        HashMap<Integer, Integer> totalRunsPerMatch = new HashMap<>();
+//        HashMap<Integer, Integer> typesOfRun = new HashMap<>();
+//        for(int i=1; i<deliveryData.size(); i++){
+//            String[] cols = deliveryData.get(i).split(",");
+//            int id = Integer.parseInt(cols[0]);
+//            boolean flag = matchId.contains(id);
+//            if(flag && cols[6].equalsIgnoreCase(pname)){
+//                int run = Integer.parseInt(cols[15]);
+//                totalRunsPerMatch.put(id, totalRunsPerMatch.getOrDefault(id, 0)+run);
+//                if(1 == run || 2 == run || 3 == run || 4 == run || 6==run){
+//                    typesOfRun.put(run, typesOfRun.getOrDefault(run, 0)+1);
+//                }
+//            }
+//        }
+//
+//        result.add("Player name is: "+pname);
+//        result.add(totalRunsPerMatch);
+//        result.add(typesOfRun);
+//
+//        return result;
+//    }
 }

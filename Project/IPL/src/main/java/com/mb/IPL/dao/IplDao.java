@@ -1,6 +1,7 @@
 package com.mb.IPL.dao;
 
-import com.mb.IPL.configuration.Configartion;
+import com.mb.IPL.configuration.Config;
+import com.mb.IPL.configuration.ConfigurationStandAlone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,17 @@ import java.util.List;
 public class IplDao {
     private static final Logger logger = LoggerFactory.getLogger(IplDao.class);
     @Autowired
-    private Configartion configartion;
+    private Config configartion = new Config();
+
+    public IplDao(){
+        ConfigurationStandAlone standAlone = new ConfigurationStandAlone();
+        configartion.setMatches(standAlone.getMatches());
+        configartion.setDeliveries(standAlone.getDeliveries());
+    }
 
     public List<String> matchesData() {
         String filePath = configartion.getMatches();
+        System.out.println(configartion.getMatches());
         try {
             File file = new File(filePath);
             if (file.exists()) {

@@ -1,5 +1,6 @@
 package com.mb.IPL;
 
+import com.mb.IPL.configuration.ConfigurationStandAlone;
 import com.mb.IPL.dto.DeliveriesDto;
 import com.mb.IPL.dto.IplDto;
 import org.slf4j.Logger;
@@ -17,6 +18,11 @@ public class StandAlone {
         Scanner sc = new Scanner(System.in);
         DeliveriesDto deliveriesDto = new DeliveriesDto();
         IplDto iplDto = new IplDto();
+
+//        ConfigurationStandAlone config = new ConfigurationStandAlone();
+//
+//        System.out.println("Matches file: " + config.getMatches());
+//        System.out.println("Deliveries file: " + config.getDeliveries());
 
         boolean flag = true;
         while(flag) {

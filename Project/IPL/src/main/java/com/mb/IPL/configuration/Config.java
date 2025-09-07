@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "app.config")
-public class Configartion {
-    private static final Logger logger = LoggerFactory.getLogger(Configartion.class);
+public class Config {
+    private static final Logger logger = LoggerFactory.getLogger(Config.class);
 
     private String matches;
     private String deliveries;

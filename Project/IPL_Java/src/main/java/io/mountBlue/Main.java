@@ -10,7 +10,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         DataBase dataBase = new DataBase();
         MatchService matchService = new MatchService();
-        DeliveriesService deliveriesService = new DeliveriesService();
+//        DeliveriesService deliveriesService = new DeliveriesService();
 
         List<Match> matchData = dataBase.getMatchData();
         List<Deliveries> deliveriesData = dataBase.getDeliveriesData();
@@ -24,6 +24,7 @@ public class Main {
             System.out.println("4. For the year 2015 get the top economical bowlers.");
             System.out.println("5. Get match details by match id.");
             System.out.println("6. Last 5 match details");
+            System.out.println("7. Partnership player");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
@@ -54,19 +55,38 @@ public class Main {
                     break;
 
                 case 3:
-                    Map<String, Integer> result3 = deliveriesService.getExtraRun(2016, matchData, deliveriesData);
+                    System.out.print("Enter year: ");
+                    int year = sc.nextInt();
+                    Map<String, Integer> result3 = matchService.getExtraRun(year, matchData, deliveriesData);
+                    if(result3.isEmpty()){
+                        System.out.println("Data not found..!!");
+                        break;
+                    }
                     for(Map.Entry<String, Integer> entry : result3.entrySet()){
                         System.out.println("Team: "+ entry.getKey() +" -> extra: " + entry.getValue());
                     }
                     break;
 
                 case 4:
-                    List<String> result = deliveriesService.getBestEconomicalBowler(2017, deliveriesData, matchData);
-                    System.out.println(result);
+                    System.out.print("Enter year: ");
+                    year = sc.nextInt();
+                    List<String> result = matchService.getBestEconomicalBowler(year, deliveriesData, matchData);
+                    if(result.isEmpty()){
+                        System.out.println("Data not found..!!");
+                    } else {
+                        System.out.println(result);
+                    }
+//                    System.out.println(result);
                     break;
 
                 case 5:
-                    Map<String, Object> matchDataById = matchService.getMatchDataById(635, matchData);
+                    System.out.print("Enter match id: ");
+                    int matchId = sc.nextInt();
+                    Map<String, Object> matchDataById = matchService.getMatchDataById(matchId, matchData);
+                    if(matchDataById.isEmpty()){
+                        System.out.println("Data not found..!!");
+                        break;
+                    }
                     for(Map.Entry<String, Object> entry : matchDataById.entrySet()){
                         System.out.println(entry.getKey() + ": " + entry.getValue());
                     }
@@ -78,9 +98,18 @@ public class Main {
                         System.out.println(match);
                     }
                     break;
+
+                case 7:
+                    System.out.print("Enter player name: ");
+                    sc.nextLine();
+                    String pName = sc.nextLine();
+                    Map<String, Integer> partnership = matchService.getPartnership(pName, deliveriesData);
+                    for(Map.Entry<String, Integer> entry : partnership.entrySet()){
+                        System.out.println(entry.getKey() + ": " + entry.getValue());
+                    }
+                    break;
                 default:
                     System.err.println("wrong input..!!");
-                    break;
             }
         }
 

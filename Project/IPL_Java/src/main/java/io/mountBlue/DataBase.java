@@ -55,12 +55,13 @@ public class DataBase {
             return matchesData;
         }
 
-        try (BufferedReader ref = new BufferedReader(new FileReader(file))) {
+        try {
+            BufferedReader ref = new BufferedReader(new FileReader(file));
             String line;
             boolean isHeader = true;
 
             while ((line = ref.readLine()) != null) {
-                if (isHeader) { // skip header row
+                if (isHeader) {
                     isHeader = false;
                     continue;
                 }
@@ -112,7 +113,8 @@ public class DataBase {
             return deliveriesData;
         }
 
-        try (BufferedReader ref = new BufferedReader(new FileReader(file))) {
+        try {
+            BufferedReader ref = new BufferedReader(new FileReader(file));
             String line;
             boolean isHeader = true;
 

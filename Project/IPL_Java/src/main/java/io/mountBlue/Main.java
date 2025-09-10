@@ -25,6 +25,8 @@ public class Main {
             System.out.println("5. Get match details by match id.");
             System.out.println("6. Last 5 match details");
             System.out.println("7. Partnership player");
+            System.out.println("8. Player highest score per team per season");
+            System.out.println("9. Find player by team with highest score in last five overs");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
@@ -76,7 +78,6 @@ public class Main {
                     } else {
                         System.out.println(result);
                     }
-//                    System.out.println(result);
                     break;
 
                 case 5:
@@ -106,6 +107,26 @@ public class Main {
                     Map<String, Integer> partnership = matchService.getPartnership(pName, deliveriesData);
                     for(Map.Entry<String, Integer> entry : partnership.entrySet()){
                         System.out.println(entry.getKey() + ": " + entry.getValue());
+                    }
+                    break;
+
+                case 8:
+                    Map<Integer, Map<String, String>> topScorePerTeam = matchService.getTopScorePerTeamPerSession(deliveriesData, matchData);
+
+                    for(Map.Entry<Integer, Map<String, String>> sessionEntry : topScorePerTeam.entrySet()) {
+                        Integer session = sessionEntry.getKey();
+                        System.out.println("Season: " + session);
+                        Map<String, String> teamTopScorer = sessionEntry.getValue();
+                        for(Map.Entry<String , String > teamEntry : teamTopScorer.entrySet()){
+                            System.out.println(teamEntry.getKey() + " -> " + teamEntry.getValue());
+                        }
+                        System.out.println();
+                    }
+                    break;
+                case 9:
+                    Map<String, String> result6 = matchService.getPlayerHeighestRunLast5OversAgainstMI(matchData, deliveriesData, "Mumbai Indians", 2017);
+                    for(Map.Entry<String, String> entry : result6.entrySet()){
+                        System.out.println(entry.getKey() + "-> " + entry.getValue());
                     }
                     break;
                 default:

@@ -20,8 +20,8 @@ import java.util.Set;
 public class MatchApiController {
     private static final Logger logger = LoggerFactory.getLogger(MatchApiController.class);
 
-    @Autowired
-    private Service service;
+//    @Autowired
+    private Service service = new Service();
 
     @GetMapping
     public ResponseEntity<ResponseStructure<List<Map<String, Object>>>> home(){

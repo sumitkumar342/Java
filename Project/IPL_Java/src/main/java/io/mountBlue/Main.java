@@ -56,7 +56,7 @@ public class Main {
         findMatchYearWise(matchData);
         findMatchWonTeamWise(matchData);
         findExtraRun(2016, matchData, deliveriesData);
-        findBestEconomicalBowler(2016, deliveriesData, matchData);
+        findBestEconomicalBowler(2015, deliveriesData, matchData);
         findMatchDataById(2, matchData);
         findLast_5_Match(5, matchData);
         findPartnership("S Dhawan", deliveriesData);
@@ -173,7 +173,7 @@ public class Main {
                 delivery.setBatsmanRuns(getIntField(fields, DELIVERIES_BATSMAN_RUNS));
                 delivery.setExtraRuns(getIntField(fields, DELIVERIES_EXTRA_RUNS));
                 delivery.setTotalRuns(getIntField(fields, DELIVERIES_TOTAL_RUNS));
-                delivery.setPlayerDismissed(getStringField(fields, DELIVERIES_PLAYER_DISMISSED));
+                delivery.setPlayerDismissed(getStringField(fields,DELIVERIES_PLAYER_DISMISSED));
                 delivery.setDismissalKind(getStringField(fields, DELIVERIES_DISMISSAL_KIND));
                 delivery.setFielder(getStringField(fields, DELIVERIES_FIELDER));
 

@@ -4,9 +4,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.*;
 import java.util.*;
 
 public class Main {
+
+    private static final String URL = "jdbc:postgresql://localhost:5432/IPL";
+    private static final String USER_NAME = "postgres";
+    private static final String PASSWORD = "tiger";
 
     private static final int MATCH_ID = 0;
     private static final int MATCH_SESSION = 1;
@@ -63,6 +68,174 @@ public class Main {
         findTopScorePerTeamPerSession(deliveriesData, matchData);
         findPlayerHeighestRunLast5OverAgainstMI(matchData, deliveriesData, "Mumbai Indians", 2017);
 
+        System.out.println();
+        System.out.println("-".repeat(10)+ "SQL" + "-".repeat(10));
+        Connection conn = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("PostgresSQL connection not establish.");
+            e.printStackTrace();
+        }
+        if(conn == null){
+            System.exit(0);
+        }
+
+        findMatchYearWiseInSQL(conn);
+        findMatchWonTeamWiseSQL(conn);
+        findExtraRunSQL(conn, 2016);
+        findBestEconomicalBowlerSQL(conn, 2015);
+
+    }
+
+    private static void findBestEconomicalBowlerSQL(Connection conn, int year) {
+        List<String> bestEconomy = new ArrayList<>();
+        String query = "SELECT d.bowler, ROUND(SUM(d.total_runs) / (COUNT(*) / 6.0), 2) AS economy FROM deliveries d JOIN matches m ON d.match_id = m.match_id WHERE m.season = ? AND d.wide_runs = 0 AND d.noball_runs = 0 GROUP BY d.bowler HAVING COUNT(*) > 6 ORDER BY economy ASC LIMIT 1;";
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try{
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, year);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                String bowler = rs.getString("bowler");
+                float economy = rs.getFloat("economy");
+                bestEconomy.add(bowler +" -> "+economy);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                if(pstmt != null){
+                    pstmt.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        System.out.println("-".repeat(20));
+        for(String row: bestEconomy){
+            System.out.println(row);
+        }
+
+    }
+
+    private static void findExtraRunSQL(Connection conn, int year) {
+        List<String> extraRunTeamWise = new ArrayList<>();
+        String query = "select d.bowling_team AS Team, SUM(d.extra_runs) AS Extra_Runs_Conceded from deliveries d JOIN matches m ON d.match_id = m.match_id where m.season = ? group by d.bowling_team order by Extra_Runs_Conceded desc";
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try{
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, year);
+
+            rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                String team = rs.getString("Team");
+                int extraRun = rs.getInt("Extra_Runs_Conceded");
+                extraRunTeamWise.add(team + " -> " + extraRun);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                if(pstmt != null){
+                    pstmt.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        System.out.println("-".repeat(20));
+        for (String row : extraRunTeamWise){
+            System.out.println(row);
+        }
+
+    }
+
+    private static void findMatchWonTeamWiseSQL(Connection conn) {
+        List<String> matchWonTeamWise = new ArrayList<>();
+        String query = "select season, winner, count(*) as number from matches group by winner, season order by season, winner";
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            pstmt = conn.prepareStatement(query);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                int season = rs.getInt("season");
+                String winner = rs.getString("winner");
+                int number = rs.getInt("number");
+                matchWonTeamWise.add(season + " ->" + winner + " -> " + number);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                if(pstmt != null){
+                    pstmt.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        System.out.println("-".repeat(20));
+        for(String row: matchWonTeamWise){
+            System.out.println(row);
+        }
+    }
+
+    private static void findMatchYearWiseInSQL(Connection conn) {
+        Map<Integer, Integer> matchDetails = new HashMap<>();
+        String query = "select season, count(*) as number from matches group by season ORDER BY season";
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try{
+            pstmt = conn.prepareStatement(query);
+            rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                int season = rs.getInt("season");
+                int number = rs.getInt("number");
+                matchDetails.put(season, number);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                if(pstmt != null){
+                    pstmt.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        for(Map.Entry<Integer, Integer> entry : matchDetails.entrySet()){
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
     }
 
     private static int getIntField(String[] fields, int index) {
